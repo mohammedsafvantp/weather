@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bebas+Neue&family=Bungee+Tint&family=Dancing+Script:wght@400..700&family=Girassol&family=Lora:ital,wght@0,400..700;1,400..700&family=Monoton&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik+Mono+One&family=Titan+One&display=swap" rel="stylesheet">
+</head>
+<body style="background-image: url('https://assamtribune.com/h-upload/2022/03/01/1330873-clouds-weather.webp?width=500&height=300');">
+    <div  class=" d-flex align-items-center justify-content-center flex-column"style="min-height: 100vh;" >
+        
+        <h2 class="text-center" style="color: yellow;">Find Weather</h2>
+           
+            <div class=" text-light d-flex">
+                <input id="weatherName" class="form-control"  type="search" style="border-radius: 5px;" width="200px" placeholder="enter the city name">
+              <button class="btn btn-success ms-2" onclick="generate()"> Search</button>
+            </div><br><br><br>
+
+<div>
+
+    <div id="output" class="mt-5">
+
+                </div>
+
+    
+</div>
+    </div>
+
+</body>
+<script>
+     const generate = async() =>{
+        if(weatherName.value !=" "){
+
+try{
+    const result=await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${weatherName.value}&appid=5b4bee0ba241d092159faf007e166080`)
+    console.log(result);
+    const res=await result.json()
+    console.log(res);
+    if(result.status == 200){
+      
+
+const weatherCondition = res.weather[0].description;
+                const temperature = (res.main.temp - 273.15).toFixed(2); 
+                const humidity = res.main.humidity;
+                const cloudCover = res.clouds.all;
+                const visibility = res.visibility;
+                const pressure = res.main.pressure;
+                const rain = res.rain?.["1h"] ?? 0;
+                const city = res.name;
+               
+
+
+
+
+        output.innerHTML=`<div class=" rounded p-5" style="background-color: transparent; min-height: 70vh; width: 700px;">
+    
+            <div class="row">
+    
+               <div class="col-lg-6">
+                <h3 class="text-danger mb-2" style="font-style: italic;">Kozhikode,Kerala</h3>
+
+                
+                
+                <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/ebc4db2235034.560a96356930d.gif" alt="" height="">   
+                
+                
+                
+    
+                </div>
+
+                
+                    <div class=" mt-4  bg-transparent">
+                         
+                             <li class="list-group-item"><h6 class="text-black" style="font-family: Alfa Slab One; margin-left: 200px; font-size: 20px;">City: ${city}</h6></li> 
+                            <li class="list-group-item"><h6 class="text-black" style="font-family: Alfa Slab One;  margin-left: 200px; font-size: 20px;" >Condition: ${weatherCondition}</h6></li> 
+                            <li class="list-group-item"><h6 class="text-black" style="font-family: Alfa Slab One;  margin-left: 200px; font-size: 20px;" >Temperature: ${temperature} °C</h6></li>
+                            <li class="list-group-item"><h6 class="text-black" style="font-family: Alfa Slab One;  margin-left: 200px; font-size: 20px;">Humidity: ${humidity}%</h6></li>                  
+                            <li class="list-group-item"><h6 class="text-black" style="font-family: Alfa Slab One;  margin-left: 200px; font-size: 20px;">Cloud Cover: ${cloudCover}</h6></li>
+                            <li class="list-group-item"><h6 class="text-black" style="font-family: Alfa Slab One;  margin-left: 200px;font-size: 20px;">visibility: ${visibility} KM </h6></li>
+                            <li class="list-group-item"><h6 class="text-black" style="font-family: Alfa Slab One;  margin-left: 200px; font-size: 20px;">pressure: ${pressure} hPa</h6></li>
+                            
+                            
+        
+        
+                            
+                       
+                        
+
+                    </div>
+
+                
+       
+    </div>
+
+
+</div>`
+        
+
+}
+if(result.status == 404){
+    output.style.color="red"
+    output.innerHTML=`${weatherName.value} ${res.message}`
+}
+}
+catch (err){
+    console.log(err);
+    
+
+}
+}
+else{
+    output.style.color="red"
+    output.innerHTML="Enter City Name"
+}
+        }
+    
+
+</script>
+</html>
